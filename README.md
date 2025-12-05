@@ -268,7 +268,7 @@ Common troubleshooting tips
 
 Security considerations
 - Use least-privilege IAM policies and separate roles for pipeline services
-- Store secrets (e.g., GitHub token, npm tokens) in AWS Secrets Manager or Parameter Store and reference them in CodeBuild as encrypted environment variables
+- Store secrets (e.g., GitHub token, CodeArtifact tokens) in AWS Secrets Manager or Parameter Store and reference them in CodeBuild as encrypted environment variables
 - Protect CodeArtifact domain with resource policies and restrict domain owner and repository access
 - Enable encryption at rest for S3 artifacts and use KMS keys where required
 
