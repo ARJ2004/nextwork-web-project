@@ -116,7 +116,7 @@ phases:
   pre_build:
     commands:
       - echo Logging in to AWS CodeArtifact...
-      - CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain nextwork --domain-owner 622488711156 --region ap-south-1 --query authorizationToken --output text`
+      - CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain nextwork --domain-owner $AWS_ACCOUNT_ID --region $AWS_DEFAULT_REGION --query authorizationToken --output text`
       - export CODEARTIFACT_AUTH_TOKEN
   build:
     commands:
@@ -138,6 +138,7 @@ artifacts:
 Notes:
 - Uses Amazon Corretto 8 (Java 8) as the runtime
 - The `aws codeartifact get-authorization-token` command authenticates Maven with CodeArtifact
+- Uses environment variables `$AWS_ACCOUNT_ID` and `$AWS_DEFAULT_REGION` which should be set in the CodeBuild project configuration
 - Uses a custom `settings.xml` file that references CodeArtifact repository
 - Packages the application as a WAR file for Tomcat deployment
 - Includes deployment scripts and appspec.yml in the artifact bundle
@@ -295,8 +296,8 @@ Examples & snippets to get started quickly
     --name nextwork-build \
     --source type=GITHUB,location=https://github.com/ARJ2004/nextwork-web-project \
     --artifacts type=S3,location=my-pipeline-artifacts-bucket \
-    --environment type=LINUX_CONTAINER,image=aws/codebuild/standard:5.0,computeType=BUILD_GENERAL1_MEDIUM \
-    --service-role arn:aws:iam::123456789012:role/CodeBuildServiceRole
+    --environment type=LINUX_CONTAINER,image=aws/codebuild/standard:7.0,computeType=BUILD_GENERAL1_MEDIUM \
+    --service-role arn:aws:iam::YOUR_ACCOUNT_ID:role/CodeBuildServiceRole
   ```
 - Create a CodePipeline with stages: Source (GitHub) -> Build (CodeBuild) -> Deploy (CodeDeploy)
 - Install CodeDeploy agent on EC2:
